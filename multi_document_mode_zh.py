@@ -55,6 +55,24 @@ def run_multi_document_mode(language, n_value, top_n, remove_punctuation, remove
     }
     st.markdown("## 多文档 N-gram 比较")
     
+    # 中文分词选项
+    jieba_mode = None
+    if language == "中文":
+        st.markdown("### 中文分词设置")
+        use_jieba = st.checkbox("启用结巴分词", value=False, help="使用结巴分词库进行中文分词")
+        
+        if use_jieba:
+            jieba_mode = st.radio(
+                "选择分词模式",
+                options=["精确模式", "全模式"],
+                index=0,
+                help="精确模式尝试将句子最精确地切开，全模式将所有可能的词语都分割出来"
+            )
+            
+            # 如果使用结巴分词，则强制设置为词级分析
+            word_level = True
+            st.info("使用结巴分词时，将自动启用词级分析。")
+    
     # 文件上传
     st.markdown("### 上传文档")
     st.markdown("上传多个文档以比较它们的 N-gram 模式。支持的格式：.txt，.md，.docx，.pdf")
@@ -96,7 +114,7 @@ def run_multi_document_mode(language, n_value, top_n, remove_punctuation, remove
                         )
                         
                         # 分词
-                        tokens = tokenize_for_ngrams(processed_text, language=language, word_level=word_level)
+                        tokens = tokenize_for_ngrams(processed_text, language=language, word_level=word_level, jieba_mode=jieba_mode)
                         
                         # 分析 n-gram
                         ngram_counts = Counter()

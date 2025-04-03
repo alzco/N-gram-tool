@@ -38,7 +38,7 @@ def generate_ngrams(tokens, n, word_level=False):
 @st.cache_data
 def analyze_text(text, n, top_n, language="中文", remove_punctuation=True, 
                 remove_spaces=True, remove_english=False, word_level=False, 
-                remove_numbers=False):
+                remove_numbers=False, jieba_mode=None):
     """
     分析文本以找出最频繁的 n-gram。
     
@@ -67,7 +67,7 @@ def analyze_text(text, n, top_n, language="中文", remove_punctuation=True,
     )
     
     # 分词
-    tokens = tokenize_for_ngrams(processed_text, language=language, word_level=word_level)
+    tokens = tokenize_for_ngrams(processed_text, language=language, word_level=word_level, jieba_mode=jieba_mode)
     
     # 生成 n-gram
     ngrams = generate_ngrams(tokens, n, word_level=word_level)
@@ -105,6 +105,24 @@ def run_single_document_mode(language, n_value, top_n, remove_punctuation, remov
     """
     st.markdown("## 单文档 N-gram 分析")
     
+    # 中文分词选项
+    jieba_mode = None
+    if language == "中文":
+        st.markdown("### 中文分词设置")
+        use_jieba = st.checkbox("启用结巴分词", value=False, help="使用结巴分词库进行中文分词")
+        
+        if use_jieba:
+            jieba_mode = st.radio(
+                "选择分词模式",
+                options=["精确模式", "全模式"],
+                index=0,
+                help="精确模式尝试将句子最精确地切开，全模式将所有可能的词语都分割出来"
+            )
+            
+            # 如果使用结巴分词，则强制设置为词级分析
+            word_level = True
+            st.info("使用结巴分词时，将自动启用词级分析。")
+    
     # 输入方法选择
     input_method = st.radio(
         "选择输入方式：",
@@ -141,7 +159,8 @@ def run_single_document_mode(language, n_value, top_n, remove_punctuation, remov
                         remove_spaces=remove_spaces,
                         remove_english=remove_english,
                         word_level=word_level,
-                        remove_numbers=remove_numbers
+                        remove_numbers=remove_numbers,
+                        jieba_mode=jieba_mode
                     )
                     
                     # 显示结果
@@ -174,7 +193,8 @@ def run_single_document_mode(language, n_value, top_n, remove_punctuation, remov
                         remove_spaces=remove_spaces,
                         remove_english=remove_english,
                         word_level=word_level,
-                        remove_numbers=remove_numbers
+                        remove_numbers=remove_numbers,
+                        jieba_mode=jieba_mode
                     )
                     
                     # 显示结果
@@ -232,11 +252,13 @@ def display_results(results, n_value, color_theme):
         df,
         x="N-gram",
         y="频率",
-        title=f"Top {len(results['ngrams'])} {results['n_value']}-gram"
-        # 移除频率颜色映射
-        # color="频率",
-        # color_continuous_scale=color_theme
+        title=f"Top {len(results['ngrams'])} {results['n_value']}-gram",
+        color="频率",  # 使用频率作为颜色变量，创建渐变效果
+        color_continuous_scale=color_theme  # 使用选择的颜色主题
     )
+    
+    # 删除频率示意柱，使图表更简洁
+    fig.update_layout(coloraxis_showscale=False)
     
     # 不再需要删除频率示意柱，因为没有使用颜色映射
     # fig.update_layout(coloraxis_showscale=False)

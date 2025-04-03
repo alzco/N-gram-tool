@@ -9,6 +9,7 @@ import os
 from typing import Dict, List, Tuple, Optional
 
 import streamlit as st
+import jieba
 
 @st.cache_data
 def extract_text_from_file(file, file_name: str) -> str:
@@ -86,7 +87,8 @@ def preprocess_text(text: str, language: str, remove_punctuation: bool = False,
     return processed_text
 
 @st.cache_data
-def tokenize_for_ngrams(text: str, language: str, word_level: bool = False) -> List[str]:
+def tokenize_for_ngrams(text: str, language: str, word_level: bool = False, 
+                     jieba_mode: str = None) -> List[str]:
     """
     Tokenize text for N-gram analysis.
     
@@ -94,11 +96,23 @@ def tokenize_for_ngrams(text: str, language: str, word_level: bool = False) -> L
         text: Input text
         language: Language of the text ('Chinese' or 'English')
         word_level: Whether to tokenize at word level (for English)
+        jieba_mode: Jieba segmentation mode ('精确模式', '全模式', or None)
         
     Returns:
         List[str]: List of tokens
     """
-    if language == "英文" and word_level:
+    # 中文分词处理
+    if language == "中文" and jieba_mode:
+        if jieba_mode == "精确模式":
+            # 精确模式，试图将句子最精确地切开
+            words = list(jieba.cut(text, cut_all=False))
+            return [w for w in words if w.strip()]
+        elif jieba_mode == "全模式":
+            # 全模式，把句子中所有可能是词语的都扫描出来
+            words = list(jieba.cut(text, cut_all=True))
+            return [w for w in words if w.strip()]
+    # 英文词级分词
+    elif language == "英文" and word_level:
         # 对英文进行更强大的词级分词
         # 1. 转换为小写
         text = text.lower()
