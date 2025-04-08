@@ -4,6 +4,7 @@ enableCORS = false
 enableXsrfProtection = false
 port = 8501
 address = "0.0.0.0"
+maxUploadSize = 600
 
 [browser]
 serverAddress = "localhost"
