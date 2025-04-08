@@ -20,6 +20,8 @@
 
 https://n-gram-tool.streamlit.app/
 
+声明：在线版本依托streamlit的云服务，上传的文件去向与本人无关。
+
 ## 本地安装 (Local Installation)
 
 ```bash
@@ -85,7 +87,7 @@ N-gram-tool/
 
 # 关于 N-grams (About N-grams)
 
-N-gram 是从给定文本样本中提取的 n 个连续项的序列。它是自然语言处理中的一种重要技术，广泛应用于文本分类、语言建模、机器翻译等领域。
+N-gram 是从给定文本样本中提取的 n 个连续项的序列。它是自然语言处理中的一种重要技术，广泛应用于文本分类、语言建模、机器翻译等领域。通过统计文本中的 N-gram词频，可以了解文本的特征。
 
 例子:
 英文单词 "hello" 的字符级 2-gram (二元组): "he", "el", "ll", "lo"
