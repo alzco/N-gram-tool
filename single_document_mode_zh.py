@@ -170,7 +170,7 @@ def run_single_document_mode(language, n_value, top_n, remove_punctuation, remov
     else:
         # 文件上传
         st.markdown("### 上传文档")
-        st.markdown("上传文档以分析其 N-gram 模式。支持的格式：.txt，.md，.docx，.pdf")
+        st.markdown("上传文档以分析其 N-gram 模式。支持的格式：.txt，.md，.docx，.pdf。上传的文档不会被Streamlit Cloud永久保存，它们只在用户会话期间存在于内存中，会话结束后就会被删除。")
         
         uploaded_file = st.file_uploader("上传文档", type=["txt", "md", "docx", "pdf"])
         

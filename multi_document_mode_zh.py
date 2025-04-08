@@ -75,7 +75,7 @@ def run_multi_document_mode(language, n_value, top_n, remove_punctuation, remove
     
     # 文件上传
     st.markdown("### 上传文档")
-    st.markdown("上传多个文档以比较它们的 N-gram 模式。支持的格式：.txt，.md，.docx，.pdf")
+    st.markdown("上传多个文档以比较它们的 N-gram 模式。支持的格式：.txt，.md，.docx，.pdf。上传的文档不会被Streamlit Cloud永久保存，它们只在用户会话期间存在于内存中，会话结束后就会被删除。")
     
     uploaded_files = st.file_uploader(
         "上传文档进行比较", 
