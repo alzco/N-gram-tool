@@ -185,7 +185,7 @@ with col2:
         min_value=1,
         max_value=100,
         value=10,
-        step=5,
+        step=1,
         help="要显示的最频繁 N-gram 的数量。"
     )
     

@@ -214,9 +214,11 @@ def run_multi_document_mode(language, n_value, top_n, remove_punctuation, remove
                                 
                                 if doc_distinctive:
                                     # 准备数据框
+                                    # 限制显示的独特N-gram数量为top_n
+                                    limited_distinctive = doc_distinctive[:top_n] if len(doc_distinctive) > top_n else doc_distinctive
                                     df = pd.DataFrame({
-                                        "N-gram": [item[0] for item in doc_distinctive],
-                                        "频率": [item[1] for item in doc_distinctive]
+                                        "N-gram": [item[0] for item in limited_distinctive],
+                                        "频率": [item[1] for item in limited_distinctive]
                                     })
                                     
                                     # 创建条形图
