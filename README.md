@@ -16,7 +16,11 @@
 - **数据导出**: 支持将分析结果导出为 CSV 格式
 - **文本预处理**: 支持多种文本清洗和预处理选项
 
-## 安装 (Installation)
+## 在线使用地址 (Online Usage)
+
+https://n-gram-tool.streamlit.app/
+
+## 本地安装 (Local Installation)
 
 ```bash
 # 克隆仓库
@@ -31,7 +35,7 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## 使用方法 (Usage)
+## 本地使用方法 (Local Usage)
 
 ```bash
 # 启动中文版应用
@@ -40,21 +44,23 @@ streamlit run app_zh.py
 
 然后在浏览器中访问 http://localhost:8501
 
-## 主要功能
+## 主要功能 (Main Features)
 
-### 单文档模式:
+### 单文档模式 (Single Document Mode):
 
-- 上传文档并选择 N-gram 的大小 (1-5)
+- 上传文档并选择 N-gram 的大小 (1-20)
+- 选择主要文本语言（中文/英文）
 - 设置文本预处理选项
 - 查看频率最高的 N-gram 和详细统计数据
-- 导出结果为 CSV 格式
+- 导出结果为 PNG 图片或 CSV 格式
 
-### 多文档模式:
+### 多文档模式 (Multi-Document Mode):
 
 - 上传多个文档进行比较
 - 计算文档间的相似度矩阵
 - 生成相似度热图
 - 找出文档间的共同和独特 N-gram
+- 导出结果为 PNG 图片或 CSV 格式
 
 ## 注意事项 (Notes)
 
