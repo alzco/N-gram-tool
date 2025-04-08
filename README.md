@@ -1,4 +1,4 @@
-# N-gram 文本分析工具 (Text Analysis Tool)
+# N-gram 文本分析工具 (N-gram Text Analysis Tool)
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-brightgreen)

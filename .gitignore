@@ -21,3 +21,7 @@ env/
 # OS specific
 .DS_Store
 Thumbs.db
+
+# Project specific
+backup/
+backup_english/
