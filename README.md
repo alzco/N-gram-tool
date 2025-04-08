@@ -20,7 +20,7 @@
 
 https://n-gram-tool.streamlit.app/
 
-声明：在线版本依托streamlit的云服务，上传的文件去向与本人无关。
+上传的文档不会被Streamlit Cloud永久保存，它们只在用户会话期间存在于内存中，会话结束后就会被删除。
 
 ## 本地安装 (Local Installation)
 
