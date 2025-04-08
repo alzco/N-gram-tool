@@ -71,7 +71,7 @@ def run_multi_document_mode(language, n_value, top_n, remove_punctuation, remove
             
             # 如果使用结巴分词，则强制设置为词级分析
             word_level = True
-            st.info("使用结巴分词时，将自动启用词级分析。")
+            st.info("使用结巴分词时，将自动启用词级分析。若选择结巴分词，建议N-gram大小设置为1。")
     
     # 文件上传
     st.markdown("### 上传文档")
