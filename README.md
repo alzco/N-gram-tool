@@ -4,14 +4,15 @@
 ![Python](https://img.shields.io/badge/Python-3.8%2B-brightgreen)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.44.0-red)
 
-一个强大的基于 Streamlit 的 N-gram 文本分析工具，支持单文档分析和多文档比较。该工具为文本挖掘、语言分析和文档相似度计算提供了直观的界面和强大的功能。
+一个强大的基于 Streamlit 的 N-gram 文本分析工具，支持单文档分析和多文档比较。该工具为文本分析和文档相似度计算提供了直观的界面和强大的功能。
 
 ## 功能特点 (Features)
 
 - **多格式支持**: 处理 TXT, DOCX, PDF, MD 等多种文件格式
 - **多语言支持**: 支持中文和英文文本分析
 - **单文档分析**: 详细的 N-gram 频率分析和可视化
-- **多文档比较**: 计算文档间的相似度并生成热图,分析文档独特的 N-gram，Top N-gram 比较
+- **多文档比较**: 计算文档间的相似度并生成热图，分析文档独特的 N-gram，Top N-gram 比较
+- **N-gram 上下文检索**: 查看 N-gram 在文档中的上下文
 - **高级可视化**: 使用 Plotly 生成交互式图表
 - **数据导出**: 支持将分析结果导出为 CSV 格式
 - **文本预处理**: 支持多种文本清洗和预处理选项
@@ -20,7 +21,11 @@
 
 https://n-gram-tool.streamlit.app/
 
-上传的文档不会被Streamlit Cloud永久保存，它们只在用户会话期间存在于内存中，会话结束后就会被删除。
+支持的浏览器：
+- Google Chrome
+- Firefox
+- Microsoft Edge
+- Safari
 
 ## 本地安装 (Local Installation)
 
@@ -54,6 +59,7 @@ streamlit run app_zh.py
 - 选择主要文本语言（中文/英文）
 - 设置文本预处理选项
 - 查看频率最高的 N-gram 和详细统计数据
+- N-gram 上下文检索
 - 导出结果为 PNG 图片或 CSV 格式
 
 ### 多文档模式 (Multi-Document Mode):
@@ -63,6 +69,7 @@ streamlit run app_zh.py
 - 生成相似度热图
 - 找出文档间的共同和独特 N-gram
 - Top N-gram 比较
+- N-gram 上下文检索
 - 导出结果为 PNG 图片或 CSV 格式
 
 ## 注意事项 (Notes)
@@ -95,3 +102,5 @@ N-gram 是从给定文本样本中提取的 n 个连续项的序列。它是自�
 中文短语 "你好世界" 的字符级 2-gram: "你好", "好世", "世界"
 
 唯一 N-gram 数量：指文本中出现的不同 N-gram 组合的总数，不考虑重复出现的频率。这是衡量文本多样性和复杂性的重要指标。
+
+
