@@ -220,7 +220,7 @@ def run_multi_document_mode(language, n_value, top_n, remove_punctuation, remove
                 st.markdown("### 文档独特的 N-gram")
                 
                 # 计算独特 N-gram
-                distinctive_ngrams = find_distinctive_ngrams(doc_ngrams, min_freq=min_distinctive_freq, top_n=top_n)
+                distinctive_ngrams = find_distinctive_ngrams(doc_ngrams, min_freq=min_distinctive_freq)
                 
                 # 为每个文档显示独特的 N-gram
                 tabs = st.tabs([doc["name"] for doc in documents])
