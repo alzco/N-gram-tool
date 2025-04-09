@@ -220,7 +220,7 @@ def run_multi_document_mode(language, n_value, top_n, remove_punctuation, remove
                 st.markdown("### 文档独特的 N-gram")
                 
                 # 计算独特 N-gram
-                distinctive_ngrams = find_distinctive_ngrams(doc_ngrams, min_freq=min_distinctive_freq)
+                distinctive_ngrams = find_distinctive_ngrams(doc_ngrams, min_freq=min_distinctive_freq, top_n=top_n)
                 
                 # 为每个文档显示独特的 N-gram
                 tabs = st.tabs([doc["name"] for doc in documents])
@@ -418,46 +418,60 @@ def run_multi_document_mode(language, n_value, top_n, remove_punctuation, remove
                     st.session_state.multi_search_results = results_by_doc
                 
                 # 显示检索结果
-                if st.session_state.multi_search_results:
-                    total_results = sum(len(results) for results in st.session_state.multi_search_results.values())
+                if st.session_state.multi_search_results and len(st.session_state.multi_search_results) > 0:
+                    # 确保结果字典不为空
+                    total_results = sum(len(results) for results in st.session_state.multi_search_results.values() if results)
                     st.markdown(f"#### 检索结果 (共{total_results}个结果)")
                     
                     # 创建文档标签页
                     if len(st.session_state.multi_search_results) > 1:
-                        search_tabs = st.tabs(["All Documents"] + list(st.session_state.multi_search_results.keys()))
+                        # 确保所有键都是有效的，并且结果不为空
+                        valid_docs = [doc for doc, results in st.session_state.multi_search_results.items() if results]
                         
-                        # 所有文档标签页
-                        with search_tabs[0]:
-                            # 合并所有文档的结果
-                            all_results_data = []
-                            for doc_name, results in st.session_state.multi_search_results.items():
-                                for result in results:
-                                    all_results_data.append({
-                                        "文档": doc_name,
-                                        "上下文": result["上下文"]
-                                    })
+                        if valid_docs:
+                            search_tabs = st.tabs(["All Documents"] + valid_docs)
                             
-                            # 显示所有结果
-                            st.markdown(f"所有文档中共找到 {total_results} 个结果")
-                            st.dataframe(pd.DataFrame(all_results_data), use_container_width=True)
-                        
-                        # 单独文档标签页
-                        for i, tab in enumerate(search_tabs[1:]):
-                            with tab:
-                                doc_name = list(st.session_state.multi_search_results.keys())[i]
-                                doc_results = st.session_state.multi_search_results[doc_name]
+                            # 所有文档标签页
+                            with search_tabs[0]:
+                                # 合并所有文档的结果
+                                all_results_data = []
+                                for doc_name in valid_docs:
+                                    results = st.session_state.multi_search_results.get(doc_name, [])
+                                    for result in results:
+                                        if isinstance(result, dict) and "上下文" in result:
+                                            all_results_data.append({
+                                                "文档": doc_name,
+                                                "上下文": result["上下文"]
+                                            })
                                 
-                                # 显示当前文档的结果
-                                st.markdown(f"在 {doc_name} 中找到 {len(doc_results)} 个结果")
-                                st.dataframe(pd.DataFrame(doc_results), use_container_width=True)
-                    else:
+                                # 显示所有结果
+                                st.markdown(f"所有文档中共找到 {len(all_results_data)} 个结果")
+                                if all_results_data:
+                                    st.dataframe(pd.DataFrame(all_results_data), use_container_width=True)
+                            
+                            # 单独文档标签页
+                            for i, tab in enumerate(search_tabs[1:]):
+                                with tab:
+                                    doc_name = valid_docs[i]
+                                    doc_results = st.session_state.multi_search_results.get(doc_name, [])
+                                    
+                                    # 显示当前文档的结果
+                                    st.markdown(f"在 {doc_name} 中找到 {len(doc_results)} 个结果")
+                                    if doc_results:
+                                        st.dataframe(pd.DataFrame(doc_results), use_container_width=True)
+                        else:
+                            st.info("未找到有效的检索结果")
+                    elif len(st.session_state.multi_search_results) == 1:
                         # 只有一个文档的情况
                         doc_name = list(st.session_state.multi_search_results.keys())[0]
-                        doc_results = st.session_state.multi_search_results[doc_name]
+                        doc_results = st.session_state.multi_search_results.get(doc_name, [])
                         
                         # 显示结果
                         st.markdown(f"在 {doc_name} 中找到 {len(doc_results)} 个结果")
-                        st.dataframe(pd.DataFrame(doc_results), use_container_width=True)
+                        if doc_results:
+                            st.dataframe(pd.DataFrame(doc_results), use_container_width=True)
+                    else:
+                        st.info("未找到检索结果")
                 elif search_button and search_ngram:
                     st.info(f"未找到匹配的N-gram: '{search_ngram}'")
                 

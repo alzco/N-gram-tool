@@ -73,6 +73,10 @@ def run_single_document_mode(language, n_value, top_n, remove_punctuation, remov
                     # 提取文本
                     text = extract_text_from_file(uploaded_file, uploaded_file.name)
                     
+                    # 显示原始文本和处理后的文本
+                    st.markdown("### 原始文本")
+                    st.text_area("原始文本", text, height=100, disabled=True, key="original_text_area")
+                    
                     # 预处理文本
                     processed_text = preprocess_text(
                         text, 
@@ -82,6 +86,10 @@ def run_single_document_mode(language, n_value, top_n, remove_punctuation, remov
                         remove_english=remove_english,
                         remove_numbers=remove_numbers
                     )
+                    
+                    # 显示处理后的文本
+                    st.markdown("### 处理后的文本")
+                    st.text_area("处理后的文本", processed_text, height=100, disabled=True, key="processed_text_area")
                     
                     # 分词
                     tokens = tokenize_for_ngrams(processed_text, language=language, word_level=word_level, jieba_mode=jieba_mode)
@@ -178,12 +186,7 @@ def display_results(results, n_value, color_theme):
     href = f'<a href="data:file/csv;base64,{b64}" download="ngram_analysis.csv">下载 CSV 文件</a>'
     st.markdown(href, unsafe_allow_html=True)
     
-    # 显示原始文本和处理后的文本
-    st.markdown("### 原始文本")
-    st.text_area("原始文本", results["original_text"], height=100, disabled=True, key="original_text_area")
-    
-    st.markdown("### 处理后的文本")
-    st.text_area("处理后的文本", results["processed_text"], height=100, disabled=True, key="processed_text_area")
+    # 原始文本和处理后的文本已在文件上传后显示
     
     # 显示统计信息
     st.markdown("<h3 style='font-size: 1.3rem;'>文档统计信息</h3>", unsafe_allow_html=True)
